@@ -207,7 +207,7 @@ Hooks.on("renderPlaylistDirectory", (app, html, data) => {
 });
 Hooks.on("sightRefresh", (visibility) => {
   if (canvas.scene.name.search("_hideUI") > -1) {
-    if (game.user.isGM) {
+    if (!game.user.isGM) {
       LandingPage.hideUI();
     }
   } else {
@@ -229,7 +229,6 @@ function exposeJournal(journalName) {
     }
   });
 }
-
 Hooks.on("renderApplication", (app, html, data) => {
   if (
     app.constructor.name == "TokenBar" &&
