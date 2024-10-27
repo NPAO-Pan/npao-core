@@ -2,7 +2,7 @@
   "id": "npao-core",
   "title": "NPAO Core",
   "description": "Core functions common to the NPAO campaigns.",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "compatibility": {
     "minimum": "12",
     "verified": "12"
@@ -17,6 +17,6 @@
   ],
   "socket": true,
   "url": "https://github.com/NPAO-Pan/npao-core",
-  "download": "https://github.com/NPAO-Pan/npao-core/archive/refs/tags/1.zip",
-  "manifest": "https://github.com/NPAO-Pan/npao-core/releases/tag/1/module.json"
+  "download": "https://github.com/NPAO-Pan/npao-core/archive/refs/tags/2.zip",
+  "manifest": "https://github.com/NPAO-Pan/npao-core/releases/tag/2/module.json"
 }
