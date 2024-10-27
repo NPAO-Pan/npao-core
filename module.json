@@ -2,7 +2,7 @@
   "id": "npao-core",
   "title": "NPAO Core",
   "description": "Core functions common to the NPAO campaigns.",
-  "version": "7.0.0",
+  "version": "1.0.0",
   "compatibility": {
     "minimum": "12",
     "verified": "12"
