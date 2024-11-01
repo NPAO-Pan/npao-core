@@ -5,6 +5,7 @@
 // * Set alternative pause icon and speed (Pause Icon)
 // * Hype tracks (Maestro)
 // * Exclusive audio (Chris-sound-module)
+// * PF2e chances (Scari08)
 
 // Also includes customs:
 // * Option to expose reset password
@@ -26,9 +27,10 @@ import { LandingPage } from "../Units/landingpage.js";
 import { PauseIconSubmenu } from "../Units/pauseiconsubmenu.js";
 import { SyncTokenName } from "../Units/synctokenname.js";
 import { UserPassword } from "../Units/userpassword.js";
+import HypeTrack from "../Units/hype-track.js";
+import { appendChances } from "../Units/strike-chances.js";
 import * as Playback from "../Units/hypePlayback.js";
 import * as Misc from "../Units/misc.js";
-import HypeTrack from "../Units/hype-track.js";
 
 Hooks.once("init", async function () {
   game.npao = {};
@@ -216,6 +218,25 @@ Hooks.on("sightRefresh", (visibility) => {
     }
   }
 });
+Hooks.on("renderApplication", (app, html, data) => {
+  if (
+    app.constructor.name == "TokenBar" &&
+    FoundryLogo.hiddenInterface == true
+  ) {
+    $("#tokenbar-controls").hide();
+    $("#token-action-bar").hide();
+  }
+});
+Hooks.on("preCreateChatMessage", async (chatMessage) => {
+  if (
+    !chatMessage.flags ||
+    !chatMessage.flags.pf2e ||
+    !chatMessage.flags.pf2e.modifiers ||
+    !chatMessage.flags.pf2e.context.dc
+  )
+    return;
+  appendChances(chatMessage);
+});
 function exposeJournal(journalName) {
   let jl = game.journal.directory;
   jl.documents.forEach((e) => {
@@ -229,12 +250,3 @@ function exposeJournal(journalName) {
     }
   });
 }
-Hooks.on("renderApplication", (app, html, data) => {
-  if (
-    app.constructor.name == "TokenBar" &&
-    FoundryLogo.hiddenInterface == true
-  ) {
-    $("#tokenbar-controls").hide();
-    $("#token-action-bar").hide();
-  }
-});
