@@ -28,7 +28,6 @@ import { PauseIconSubmenu } from "../Units/pauseiconsubmenu.js";
 import { SyncTokenName } from "../Units/synctokenname.js";
 import { UserPassword } from "../Units/userpassword.js";
 import HypeTrack from "../Units/hype-track.js";
-import { appendChances } from "../Units/strike-chances.js";
 import * as Playback from "../Units/hypePlayback.js";
 import * as Misc from "../Units/misc.js";
 
@@ -81,7 +80,42 @@ Hooks.once("ready", async function () {
     }
   });
   window.exclusiveAudio = Misc.exclusiveAudio;
-  // window.setTimeout(_readyHookRegistrations, 500);
+  Hooks.on("preCreateChatMessage", async (chatMessage) => {
+    if (
+      !chatMessage.flags ||
+      !chatMessage.flags.pf2e ||
+      !chatMessage.flags.pf2e.modifiers ||
+      !chatMessage.flags.pf2e.context.dc
+    )
+      return;
+
+    let dc =
+      10 +
+      (chatMessage.flags.pf2e.context.dc.value ??
+        chatMessage.flags.pf2e.context.dc.parent?.dc?.value ??
+        0);
+    let modifier = 10; //adding artificial 10 to be safe from negative dcs and modifiers
+    chatMessage.flags.pf2e.modifiers.forEach(
+      (e) => (modifier += e.enabled ? e.modifier : 0)
+    );
+    const diff = dc - modifier;
+    const chances = [0, 0, 0, 0];
+
+    chancesCalculation(diff, chances);
+
+    const div = document.createElement("div");
+    div.style.cssText = "display:flex;margin:8px 0 8px 0;height:24px";
+    div.innerHTML = `<div style="display:flex;justify-content:center;overflow:hidden;border-bottom:12px solid;color:#c42522;width:${chances[0]}%;">${chances[0]}%CrFail</div>
+    <div style="display:flex;justify-content:center;overflow:hidden;border-bottom:12px solid;color:#874644 ;width:${chances[1]}%;">${chances[1]}%Fail</div>
+    <div style="display:flex;justify-content:center;overflow:hidden;border-bottom:12px solid;color: #002564 ;width:${chances[2]}%;">${chances[2]}%Succ</div>
+    <div style="display:flex;justify-content:center;overflow:hidden;border-bottom:12px solid;color:#448746;width:${chances[3]}%;">${chances[3]}%Crit</div>`;
+
+    const flavor = chatMessage.flavor;
+    const $flavor = $(`<div>${flavor}</div>`);
+    $flavor.find("div.result.degree-of-success").before(div);
+    const newFlavor = $flavor.html();
+    await chatMessage.updateSource({ flavor: newFlavor });
+  });
 });
 Hooks.on("getSceneControlButtons", (controls) => {
   const changePassword = {
@@ -226,16 +260,6 @@ Hooks.on("renderApplication", (app, html, data) => {
     $("#tokenbar-controls").hide();
     $("#token-action-bar").hide();
   }
-});
-Hooks.on("preCreateChatMessage", async (chatMessage) => {
-  if (
-    !chatMessage.flags ||
-    !chatMessage.flags.pf2e ||
-    !chatMessage.flags.pf2e.modifiers ||
-    !chatMessage.flags.pf2e.context.dc
-  )
-    return;
-  appendChances(chatMessage);
 });
 function exposeJournal(journalName) {
   let jl = game.journal.directory;
