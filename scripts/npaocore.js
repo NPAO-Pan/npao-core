@@ -101,7 +101,7 @@ Hooks.once("ready", async function () {
     const diff = dc - modifier;
     const chances = [0, 0, 0, 0];
 
-    chancesCalculation(diff, chances);
+    Misc.chancesCalculation(diff, chances);
 
     const div = document.createElement("div");
     div.style.cssText = "display:flex;margin:8px 0 8px 0;height:24px";
