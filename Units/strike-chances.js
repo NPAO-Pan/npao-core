@@ -1,11 +1,11 @@
-export function appendChances(cMessage) {
+export function appendChances(chatMessage) {
     let dc =
       10 +
-      (cMessage.flags.pf2e.context.dc.value ??
-        cMessage.flags.pf2e.context.dc.parent?.dc?.value ??
+      (chatMessage.flags.pf2e.context.dc.value ??
+        chatMessage.flags.pf2e.context.dc.parent?.dc?.value ??
         0);
     let modifier = 10; //adding artificial 10 to be safe from negative dcs and modifiers
-    cMessage.flags.pf2e.modifiers.forEach(
+    chatMessage.flags.pf2e.modifiers.forEach(
       (e) => (modifier += e.enabled ? e.modifier : 0)
     );
     const diff = dc - modifier;
@@ -20,11 +20,11 @@ export function appendChances(cMessage) {
     <div style="display:flex;justify-content:center;overflow:hidden;border-bottom:12px solid;color: #002564 ;width:${chances[2]}%;">${chances[2]}%Succ</div>
     <div style="display:flex;justify-content:center;overflow:hidden;border-bottom:12px solid;color:#448746;width:${chances[3]}%;">${chances[3]}%Crit</div>`;
 
-    const flavor = cMessage.flavor;
+    const flavor = chatMessage.flavor;
     const $flavor = $(`<div>${flavor}</div>`);
     $flavor.find("div.result.degree-of-success").before(div);
     const newFlavor = $flavor.html();
-    await cMessage.updateSource({ flavor: newFlavor });
+    await chatMessage.updateSource({ flavor: newFlavor });
   };
 
 function chancesCalculation(diff, chances) {
