@@ -187,18 +187,18 @@ export function exclusiveAudio(playerNames, playlistName, audioFile) {
   playerNames.forEach((u) => {
     let player = game.users.find((user) => user.name === u);
     if (!player) {
-      console.log("Player ${playerName} not found!");
+      console.log("Player ${u} not found!");
       return;
     }
 
     console.log(
-      `Sending audio exclusively to user ${player.id} with src: ${sound.path}`
+      `Sending audio exclusively to user ${player.id} at volume ${soundData.volume} with src: ${sound.path}`
     );
-    // game.socket.emit("module.npao-core", {
-    //   action: "playSound",
-    //   data: soundData,
-    //   userId: player.id,
-    // });
+    game.socket.emit("module.npao-core", {
+      action: "playSound",
+      data: soundData,
+      userId: player.id,
+    });
   });
 }
 
