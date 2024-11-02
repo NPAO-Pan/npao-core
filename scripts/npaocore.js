@@ -51,6 +51,7 @@ Hooks.once("ready", async function () {
     if (data.action === "playSound" && data.userId === game.user.id) {
       console.log("Playing sound for user:", data.userId);
       try {
+        console.log("VOLUME! Is at ${data.data.volume}.");
         const volume =
           isNaN(data.data.volume) ||
           data.data.volume < 0 ||
@@ -80,6 +81,7 @@ Hooks.once("ready", async function () {
     }
   });
   window.exclusiveAudio = Misc.exclusiveAudio;
+  // NEED TO CLEANUP THE FOLLOWING CODE (FOR THE CHANCE-TO-HIT STATS)
   Hooks.on("preCreateChatMessage", async (chatMessage) => {
     if (
       !chatMessage.flags ||
@@ -104,7 +106,7 @@ Hooks.once("ready", async function () {
     Misc.chancesCalculation(diff, chances);
 
     const div = document.createElement("div");
-    div.style.cssText = "display:flex;margin:8px 0 8px 0;height:12px";
+    div.style.cssText = "display:flex;margin:8px 0 8px 0;height:8px";
     div.innerHTML = `<div style="display:flex;justify-content:center;overflow:hidden;border-bottom:12px solid;color:#c42522;width:${chances[0]}%;">${chances[0]}%CrFail</div>
     <div style="display:flex;justify-content:center;overflow:hidden;border-bottom:12px solid;color:#874644 ;width:${chances[1]}%;">${chances[1]}%Fail</div>
     <div style="display:flex;justify-content:center;overflow:hidden;border-bottom:12px solid;color: #002564 ;width:${chances[2]}%;">${chances[2]}%Succ</div>
