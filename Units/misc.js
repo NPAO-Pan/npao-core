@@ -188,7 +188,6 @@ export function exclusiveAudio(playerNames, playlistName, audioFile) {
     let player = game.users.find((user) => user.name === u);
     if (!player) {
       console.log("Player ${u} not found!");
-      return;
     } else {
       console.log(
         `Sending src: ${sound.path} exclusively to ${u} - user ${player.id} - at volume ${soundData.volume}`
