@@ -192,13 +192,13 @@ export function exclusiveAudio(playerNames, playlistName, audioFile) {
     }
 
     console.log(
-      `Sending audio exclusively to user ${player.id} at volume ${soundData.volume} with src: ${sound.path}`
+      `Sending src: ${sound.path} exclusively to ${u} - user ${player.id} - at volume ${soundData.volume}`
     );
-    game.socket.emit("module.npao-core", {
-      action: "playSound",
-      data: soundData,
-      userId: player.id,
-    });
+    // game.socket.emit("module.npao-core", {
+    //   action: "playSound",
+    //   data: soundData,
+    //   userId: player.id,
+    // });
   });
 }
 
