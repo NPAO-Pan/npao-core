@@ -189,16 +189,16 @@ export function exclusiveAudio(playerNames, playlistName, audioFile) {
     if (!player) {
       console.log("Player ${u} not found!");
       return;
+    } else {
+      console.log(
+        `Sending src: ${sound.path} exclusively to ${u} - user ${player.id} - at volume ${soundData.volume}`
+      );
+      game.socket.emit("module.npao-core", {
+        action: "playSound",
+        data: soundData,
+        userId: player.id,
+      });
     }
-
-    console.log(
-      `Sending src: ${sound.path} exclusively to ${u} - user ${player.id} - at volume ${soundData.volume}`
-    );
-    // game.socket.emit("module.npao-core", {
-    //   action: "playSound",
-    //   data: soundData,
-    //   userId: player.id,
-    // });
   });
 }
 

@@ -51,16 +51,10 @@ Hooks.once("ready", async function () {
     if (data.action === "playSound" && data.userId === game.user.id) {
       console.log("Playing sound for user:", data.userId);
       try {
-        const volume =
-          isNaN(data.data.volume) ||
-          data.data.volume < 0 ||
-          data.data.volume > 1
-            ? 0.8
-            : data.data.volume;
-        // BLF: won't be able to operate on this one to create a stop function until it's returned to a constant, but still allows for
+        // BLF: won't be able to create a stop function until it's returned to a constant, but still allows for
         // multiple players.  Module array with add/clear?
         let exclusiveaudioSound = new Audio(data.data.src);
-        exclusiveaudioSound.volume = volume;
+        exclusiveaudioSound.volume = data.data.volume;
         exclusiveaudioSound.loop = data.data.loop;
         exclusiveaudioSound
           .play()
