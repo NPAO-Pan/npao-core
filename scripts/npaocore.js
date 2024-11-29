@@ -6,6 +6,7 @@
 // * Hype tracks (Maestro)
 // * Exclusive audio (Chris-sound-module)
 // * PF2e chances (Scari08)
+// * Can flag specific players to a door object so that they have access to open when locked.  Greatly simplifies Lock & Key concept.
 
 // Also includes customs:
 // * Option to expose reset password
@@ -28,6 +29,7 @@ import { PauseIconSubmenu } from "../Units/pauseiconsubmenu.js";
 import { SyncTokenName } from "../Units/synctokenname.js";
 import { UserPassword } from "../Units/userpassword.js";
 import HypeTrack from "../Units/hype-track.js";
+import * as Doors from "../Units/dooraccess.js";
 import * as Playback from "../Units/hypePlayback.js";
 import * as Misc from "../Units/misc.js";
 
@@ -36,6 +38,7 @@ Hooks.once("init", async function () {
   NPAOSettings.InitSettings();
   FoundryLogo.initHooks();
   UserPassword.initHooks();
+  Doors.hookDoorEvents();
 });
 Hooks.once("ready", async function () {
   game.settings.set(config.moduleName, "notesDisplayToggle", true);
