@@ -15,11 +15,6 @@
 // * Option to limit player control of token movement to WSAD keys
 // * Minimize UI automatically for players when viewing a scene with "_hideUI" in the Scene Name (not the Navigation Name)
 
-// Under development:
-// * Incorporation of some functionality from Narrator
-// * Incorporation of some functionality from Monk's Chat Timer
-// * Extension of exlusive audio to support constant objects (to stop or otherwise act on) with multiple players - 27 Oct plan: add/remove objects to a flag or other registered global
-
 //================================================================================
 import * as config from "../Units/npaoconfig.js";
 import { NPAOSettings } from "../Units/settings.js";
